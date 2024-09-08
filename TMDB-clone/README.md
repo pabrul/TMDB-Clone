@@ -39,8 +39,10 @@ src/
 ├── stores/                 # Gerenciamento de estado usando Vuex ou Pinia
 ├── utils/                  # Utilitários e funções auxiliares
 └── styles/                 # Arquivos de estilo CSS
+```
 
 ## Como Executar o Projeto
+
 Clone o repositório:
 git clone https://github.com/seu-usuario/tmdb-clone.git
 
@@ -59,4 +61,3 @@ npm run dev
 Acesse o projeto no navegador:
 exemplo:
 http://localhost:3000
-```
