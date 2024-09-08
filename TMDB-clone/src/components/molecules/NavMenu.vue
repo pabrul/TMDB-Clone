@@ -1,11 +1,7 @@
 <script setup>
 import NavLink from "../atoms/NavLink.vue";
 
-const links = [
-  { href: "#", text: "Home" },
-  { href: "#", text: "Filmes" },
-  { href: "#", text: "Séries" },
-];
+const links = [{ href: "/", text: "Home" }];
 </script>
 
 <template>

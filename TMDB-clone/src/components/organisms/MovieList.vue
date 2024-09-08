@@ -1,10 +1,13 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useMovieStore } from "../../stores/movieStore";
 import MovieCard from "../molecules/MovieCard.vue";
 import TabSelector from "../molecules/TabSelector.vue";
 import Search from "../atoms/Search.vue";
 
+const router = useRouter();
+const route = useRoute();
 const movieStore = useMovieStore();
 const activeTab = ref("trending");
 const searchQuery = ref("");
@@ -24,24 +27,27 @@ const fetchMovies = () => {
   }
 };
 
-onMounted(() => {
+const updateUrlAndFetch = () => {
+  router
+    .push({
+      query: {
+        category: activeTab.value,
+        search: searchQuery.value || undefined,
+      },
+    })
+    .catch(() => {}); // Catch any navigation errors
   fetchMovies();
-});
+};
 
 const changeTab = (tab) => {
   activeTab.value = tab;
   searchQuery.value = "";
-  fetchMovies();
+  updateUrlAndFetch();
 };
 
 const handleSearch = (query) => {
   searchQuery.value = query;
-  fetchMovies();
-};
-
-const resetSearch = () => {
-  searchQuery.value = "";
-  fetchMovies();
+  updateUrlAndFetch();
 };
 
 const movies = computed(() => {
@@ -61,11 +67,36 @@ const title = computed(() => {
     ? "Filmes em Tendência"
     : "Filmes Mais Populares";
 });
+
+// Use onMounted instead of watch for initial setup
+onMounted(() => {
+  if (route.query) {
+    activeTab.value = route.query.category || "trending";
+    searchQuery.value = route.query.search || "";
+  }
+  fetchMovies();
+});
+
+// Watch for route changes after initial mount
+watch(
+  () => route.query,
+  (newQuery) => {
+    if (newQuery) {
+      activeTab.value = newQuery.category || "trending";
+      searchQuery.value = newQuery.search || "";
+      fetchMovies();
+    }
+  }
+);
 </script>
 
 <template>
   <div>
-    <Search @search="handleSearch" @reset="resetSearch" class="mb-6" />
+    <Search
+      @search="handleSearch"
+      @reset="() => handleSearch('')"
+      class="mb-6"
+    />
 
     <TabSelector
       :tabs="tabs"

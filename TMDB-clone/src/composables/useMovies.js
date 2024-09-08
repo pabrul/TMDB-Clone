@@ -51,7 +51,11 @@ export function useMovies() {
   const fetchMovieDetails = async (movieId) => {
     loading.value = true;
     try {
-      const response = await tmdbService.getMovieDetails(movieId);
+      const response = await tmdbService.getMovieDetails(movieId, {
+        params: {
+          append_to_response: "credits", // Certifique-se de adicionar isso
+        },
+      });
       currentMovie.value = response.data;
     } catch (err) {
       error.value = "Falha ao carregar detalhes do filme";

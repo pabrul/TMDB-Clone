@@ -15,5 +15,8 @@ export const tmdbService = {
   getTrendingMovies: () => tmdbApi.get("/trending/movie/week"),
   getPopularMovies: () => tmdbApi.get("/movie/popular"),
   searchMovies: (query) => tmdbApi.get("/search/movie", { params: { query } }),
-  getMovieDetails: (movieId) => tmdbApi.get(`/movie/${movieId}`),
+  getMovieDetails: (movieId) =>
+    tmdbApi.get(`/movie/${movieId}`, {
+      params: { append_to_response: "credits" },
+    }),
 };

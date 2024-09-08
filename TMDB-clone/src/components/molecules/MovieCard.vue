@@ -1,9 +1,12 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { truncateOverview } from "../../utils/movieUtils";
 import MoviePoster from "../atoms/MoviePoster.vue";
 import MovieTitle from "../atoms/MovieTitle.vue";
 import Modal from "./Modal.vue";
+
+const router = useRouter();
 
 const props = defineProps({
   movie: {
@@ -23,7 +26,7 @@ const closeModal = () => {
 };
 
 const goToMovieDetails = () => {
-  window.open(`https://www.themoviedb.org/movie/${props.movie.id}`, "_blank");
+  router.push({ name: "MovieDetails", params: { id: props.movie.id } });
 };
 </script>
 

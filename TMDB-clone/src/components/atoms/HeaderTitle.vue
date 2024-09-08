@@ -8,5 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold text-tmdb-light-green">{{ title }}</h1>
+  <router-link to="/">
+    <h1 class="text-3xl font-bold text-tmdb-light-green">{{ title }}</h1>
+  </router-link>
 </template>
